@@ -10,7 +10,9 @@
     "build": "npm run build-prod",
     "build-prod": "cross-env WEBPACK_ENV=production gulp build",
     "build-dev": "cross-env WEBPACK_ENV=dev gulp build",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "widget": {
     "package": "ChartJS",
@@ -28,8 +30,12 @@
   ],
   "license": "Apache-2.0",
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-runtime": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
     "autoprefixer": "^7.1.4",
     "babel-core": "^6.26.0",
+    "babel-jest": "^30.3.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
@@ -57,6 +63,8 @@
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "img-loader": "^2.0.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
     "loadcss": "^0.0.2",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",

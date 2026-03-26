@@ -33,6 +33,8 @@ import ChartJS from 'chart.js/dist/Chart.bundle.min.js';
 
 import template from './ChartJS.template.html';
 
+import { hexToRgb, sortArrayObj, createDataSets } from './utils';
+
 export default defineWidget('Core', template, {
 
     // Set in the modeler
@@ -66,6 +68,9 @@ export default defineWidget('Core', template, {
         this._executeCallback = runCallback.bind(this);
         this._execute = execute.bind(this);
         this._executePromise = executePromise.bind(this);
+        this._hexToRgb = hexToRgb;
+        this._sortArrayObj = sortArrayObj;
+        this._createDataSets = createDataSets;
     },
 
     startup() {
@@ -468,44 +473,9 @@ export default defineWidget('Core', template, {
         }
     },
 
-    _createDataSets(data) {
-        this.log('_createDataSets');
+    // _createDataSets is now imported from ./utils.js and assigned in constructor
 
-        const _chartData = {
-            labels: [],
-            datasets: [{
-                data: [],
-                backgroundColor: [],
-                hoverBackgroundColor: [],
-            }],
-        };
-
-        for (let j = 0; j < data.length; j++) {
-            _chartData.labels.push(data[ j ].label);
-            _chartData.datasets[ 0 ].data.push(data[ j ].value);
-            _chartData.datasets[ 0 ].backgroundColor.push(data[ j ].backgroundColor);
-            _chartData.datasets[ 0 ].hoverBackgroundColor.push(data[ j ].hoverBackgroundColor);
-        }
-
-        return _chartData;
-    },
-
-    _sortArrayObj(values) {
-        this.log('_sortArrayObj');
-
-        return values.sort((a, b) => {
-            const aa = +(a.sorting); //eslint-disable-line no-extra-parens
-            const bb = +(b.sorting); //eslint-disable-line no-extra-parens
-            if (aa > bb) {
-                return 1;
-            }
-            if (aa < bb) {
-                return -1;
-            }
-            // a must be equal to b
-            return 0;
-        });
-    },
+    // _sortArrayObj is now imported from ./utils.js and assigned in constructor
 
     _isNumber(n, attr) {
         return 'function' === typeof n.isNumeric ? n.isNumeric(attr) : n.isNumber(attr);
@@ -551,32 +521,7 @@ export default defineWidget('Core', template, {
         }, 50);
     },
 
-    _hexToRgb(hex, alpha) {
-        this.log('_hexToRgb');
-        let h = hex;
-
-        if (null !== hex) {
-            // From Stackoverflow here: http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-            // Expand shorthand form (e.g. '03F') to full form (e.g. '0033FF')
-            const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-            h = h.replace(shorthandRegex, function(m, r, g, b) {
-                return r + r + g + g + b + b;
-            });
-
-            const regex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
-            if (regex) {
-                const result = {
-                    r: parseInt(regex[ 1 ], 16),
-                    g: parseInt(regex[ 2 ], 16),
-                    b: parseInt(regex[ 3 ], 16),
-                };
-                return 'rgba(' + result.r + ',' + result.g + ',' + result.b + ',' + alpha + ')';
-            }
-        } else {
-            logger.warn('Empty hex color!');
-        }
-        return 'rgba(220,220,220,' + alpha + ')';
-    },
+    // _hexToRgb is now imported from ./utils.js and assigned in constructor
 
     _chartOptions(options) {
         this.log('_chartOptions');
