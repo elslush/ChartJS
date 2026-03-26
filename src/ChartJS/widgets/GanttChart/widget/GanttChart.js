@@ -104,7 +104,7 @@ export default defineWidget('GanttChart.widget.GanttChart', null, {
                             ticks: {
                                 fontFamily: this._font,
                                 beginAtZero: true,
-                                max: this.maxDays > 0 ? this.maxDays : undefined,
+                                max: 0 < this.maxDays ? this.maxDays : void 0,
                             },
                             gridLines: {
                                 display: true,
@@ -140,14 +140,14 @@ export default defineWidget('GanttChart.widget.GanttChart', null, {
                                 return '';
                             },
                             title(tooltipItems) {
-                                if (tooltipItems.length > 0) {
+                                if (0 < tooltipItems.length) {
                                     return tooltipItems[ 0 ].yLabel;
                                 }
                                 return '';
                             },
                         },
                         filter(tooltipItem) {
-                            return tooltipItem.datasetIndex !== 0;
+                            return 0 !== tooltipItem.datasetIndex;
                         },
                     },
 

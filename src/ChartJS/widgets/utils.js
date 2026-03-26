@@ -13,7 +13,7 @@
  * @returns {string} rgba color string
  */
 export function hexToRgb(hex, alpha) {
-    if (null !== hex && undefined !== hex) {
+    if (null !== hex && 'undefined' !== typeof hex) {
         const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
         const h = hex.replace(shorthandRegex, function (m, r, g, b) {
             return r + r + g + g + b + b;
@@ -22,9 +22,9 @@ export function hexToRgb(hex, alpha) {
         const regex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
         if (regex) {
             const result = {
-                r: parseInt(regex[1], 16),
-                g: parseInt(regex[2], 16),
-                b: parseInt(regex[3], 16),
+                r: parseInt(regex[ 1 ], 16),
+                g: parseInt(regex[ 2 ], 16),
+                b: parseInt(regex[ 3 ], 16),
             };
             return 'rgba(' + result.r + ',' + result.g + ',' + result.b + ',' + alpha + ')';
         }
@@ -41,8 +41,8 @@ export function hexToRgb(hex, alpha) {
  */
 export function sortArrayObj(values) {
     return values.slice().sort((a, b) => {
-        const aa = +(a.sorting);
-        const bb = +(b.sorting);
+        const aa = +a.sorting;
+        const bb = +b.sorting;
         if (aa > bb) {
             return 1;
         }
@@ -70,10 +70,10 @@ export function createDataSets(data) {
     };
 
     for (let j = 0; j < data.length; j++) {
-        chartData.labels.push(data[j].label);
-        chartData.datasets[0].data.push(data[j].value);
-        chartData.datasets[0].backgroundColor.push(data[j].backgroundColor);
-        chartData.datasets[0].hoverBackgroundColor.push(data[j].hoverBackgroundColor);
+        chartData.labels.push(data[ j ].label);
+        chartData.datasets[ 0 ].data.push(data[ j ].value);
+        chartData.datasets[ 0 ].backgroundColor.push(data[ j ].backgroundColor);
+        chartData.datasets[ 0 ].hoverBackgroundColor.push(data[ j ].hoverBackgroundColor);
     }
 
     return chartData;

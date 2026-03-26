@@ -32,6 +32,7 @@ fs.ensureDirSync(mpkDir);
 const entry = {};
 const externals = [
     /^mxui\/|^mendix\/|^dojo\/|^dijit\//,
+    /^widget-base-helpers(\/|$)/,
     {
         dojoBaseDeclare: 'dojo/_base/declare'
     },
@@ -42,6 +43,7 @@ const externals = [
 
 readDir(widgetDir)
     .filter(file => file.indexOf('.js') !== -1)
+    .filter(file => file.indexOf('__tests__') === -1)
     .filter(file => {
         return widgetConfig.libraries || (!widgetConfig.libraries && file.indexOf('Libraries') === -1);
     })
@@ -131,7 +133,16 @@ const webpackConfig = {
                 test: /\.(css|scss)$/,
                 loaders: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: 'css-loader!sass-loader!postcss-loader'
+                    use: [
+                        'css-loader',
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                implementation: require('sass')
+                            }
+                        },
+                        'postcss-loader'
+                    ]
                 })
             },
             {
